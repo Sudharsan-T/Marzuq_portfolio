@@ -1,8 +1,8 @@
-# Portfolio V5
+# Marzuq Portfolio 
 
 Hello everyone\! 👋
 
-Let me introduce myself, I'm **Eki Zulfar Rachman**. On this occasion, I'd like to share the portfolio website project that I've developed.
+Let me introduce myself, I'm **Sudharsan T**. On this occasion, I'd like to share the portfolio website project that I've developed for my friend **Marzuq**.
 
 ## 🚀 Live Demo
 
@@ -237,7 +237,7 @@ We would appreciate it if you decide to use this project. Please include proper 
 
 If you have any questions or need help with the setup, feel free to reach out\!
 
-**Eki Zulfar Rachman**
+**Sudharsan T**
 
   - Website: [https://www.eki.my.id/](https://www.eki.my.id/)
   - GitHub: [EkiZR](https://github.com/EkiZR)
