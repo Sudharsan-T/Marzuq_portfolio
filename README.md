@@ -6,7 +6,7 @@ Let me introduce myself, I'm **Sudharsan T**. On this occasion, I'd like to shar
 
 ## 🚀 Live Demo
 
-**Website Link:** [https://www.eki.my.id/](https://marzuq-portfolio.vercel.app/)
+**Website Link:** [marzuq-portfolio](https://marzuq-portfolio.vercel.app/)
 
 ## 🛠️ Tech Stack
 
@@ -239,7 +239,7 @@ If you have any questions or need help with the setup, feel free to reach out\!
 
 **Sudharsan T**
 
-  - Website: [https://www.eki.my.id/](https://marzuq-portfolio.vercel.app/)
+  - Website: [marzuq-portfolio](https://marzuq-portfolio.vercel.app/)
   - GitHub: [Sudharsan T](https://github.com/Sudharsan-T/Marzuq_portfolio.git)
 
 -----
