@@ -169,7 +169,7 @@ const ProjectDetails = () => {
         Description: selectedProject.Description ?? selectedProject.description ?? '',
         Img: selectedProject.Img ?? selectedProject.img ?? '',
         Link: selectedProject.Link ?? selectedProject.link ?? selectedProject.demo ?? '',
-        Github: selectedProject.Github ?? selectedProject.github ?? selectedProject.repo_link ?? 'https://github.com/EkiZR',
+        Github: selectedProject.Github ?? selectedProject.github ?? selectedProject.repo_link ?? 'https://github.com/Ishtiyaq-Marzuq',
         Features: Array.isArray(selectedProject.Features)
           ? selectedProject.Features
           : parseFeatures(selectedProject.Features ?? selectedProject.features ?? ''),

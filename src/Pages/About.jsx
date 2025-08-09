@@ -114,19 +114,22 @@ const StatCard = memo(({ icon: Icon, color, value, label, description, animation
 
 const AboutPage = () => {
   // Memoized calculations
-  const { totalProjects, totalCertificates, YearExperience } = useMemo(() => {
+  const { totalProjects, totalCertificates, MonthExperience } = useMemo(() => {
     const storedProjects = JSON.parse(localStorage.getItem("projects") || "[]");
     const storedCertificates = JSON.parse(localStorage.getItem("certificates") || "[]");
     
     const startDate = new Date("2021-11-06");
     const today = new Date();
-    const experience = today.getFullYear() - startDate.getFullYear() -
-      (today < new Date(today.getFullYear(), startDate.getMonth(), startDate.getDate()) ? 1 : 0);
+    let months = (today.getFullYear() - startDate.getFullYear()) * 12 + (today.getMonth() - startDate.getMonth());
+    if (today.getDate() < startDate.getDate()) months -= 1;
+    if (months < 0) months = 0;
+    // Override to fixed value as requested
+    months = 3;
 
     return {
       totalProjects: storedProjects.length,
       totalCertificates: storedCertificates.length,
-      YearExperience: experience
+      MonthExperience: months
     };
   }, []);
 
@@ -175,12 +178,12 @@ const AboutPage = () => {
     {
       icon: Globe,
       color: "from-[#6366f1] to-[#a855f7]",
-      value: YearExperience,
-      label: "Years of Experience",
+      value: MonthExperience,
+      label: "Months of Experience",
       description: "Continuous learning journey",
       animation: "fade-left",
     },
-  ], [totalProjects, totalCertificates, YearExperience]);
+  ], [totalProjects, totalCertificates, MonthExperience]);
 
   return (
     <div
