@@ -106,11 +106,76 @@ const ProjectDetails = () => {
     const selectedProject = storedProjects.find((p) => String(p.id) === id);
     
     if (selectedProject) {
+      const tryParseJSON = (s) => { try { return JSON.parse(s); } catch { return null; } };
+      const splitLines = (s) => s.split(/\r?\n+/).map((x) => x.trim()).filter(Boolean);
+      const splitTokens = (s) => s.split(/,|\band\b/gi).map((x) => x.trim()).filter(Boolean);
+      const stripParens = (s) => s.replace(/\([^)]*\)/g, '').trim();
+
+      const parseFeatures = (val) => {
+        if (!val) return [];
+        if (Array.isArray(val)) return val;
+        if (typeof val !== 'string') return [];
+        const t = val.trim();
+        try {
+          const m = t.match(/"features"\s*:\s*(\[[\s\S]*?\])/i);
+          if (m && m[1]) {
+            const arr = JSON.parse(m[1]);
+            if (Array.isArray(arr)) return arr;
+          }
+        } catch {}
+        if (t.startsWith('[') && t.endsWith(']')) {
+          const arr = tryParseJSON(t);
+          if (Array.isArray(arr)) return arr;
+        }
+        if (t.startsWith('{') && t.endsWith('}')) {
+          const obj = tryParseJSON(t) || {};
+          if (Array.isArray(obj.features)) return obj.features;
+          if (Array.isArray(obj.Features)) return obj.Features;
+        }
+        const lines = splitLines(t);
+        if (lines.length > 1) return lines;
+        return splitTokens(t);
+      };
+
+      const parseTech = (val) => {
+        if (!val) return [];
+        if (Array.isArray(val)) return val;
+        if (typeof val !== 'string') return [];
+        const t = val.trim();
+        if (t.startsWith('[') && t.endsWith(']')) {
+          const arr = tryParseJSON(t);
+          if (Array.isArray(arr)) return arr;
+        }
+        if (t.startsWith('{') && t.endsWith('}')) {
+          const obj = tryParseJSON(t) || {};
+          const arr = obj.techstack || obj.tech_stack || obj.tech || obj.stack || null;
+          if (Array.isArray(arr)) return arr;
+        }
+        // Key: value lines
+        const tokens = [];
+        splitLines(t).forEach((line) => {
+          const idx = line.indexOf(':');
+          if (idx === -1) return;
+          const value = line.slice(idx + 1);
+          splitTokens(stripParens(value)).forEach((x) => tokens.push(x));
+        });
+        if (tokens.length) return Array.from(new Set(tokens));
+        return splitTokens(stripParens(t));
+      };
+
       const enhancedProject = {
         ...selectedProject,
-        Features: selectedProject.Features || [],
-        TechStack: selectedProject.TechStack || [],
-        Github: selectedProject.Github || 'https://github.com/EkiZR',
+        Title: selectedProject.Title ?? selectedProject.title ?? '',
+        Description: selectedProject.Description ?? selectedProject.description ?? '',
+        Img: selectedProject.Img ?? selectedProject.img ?? '',
+        Link: selectedProject.Link ?? selectedProject.link ?? selectedProject.demo ?? '',
+        Github: selectedProject.Github ?? selectedProject.github ?? selectedProject.repo_link ?? 'https://github.com/EkiZR',
+        Features: Array.isArray(selectedProject.Features)
+          ? selectedProject.Features
+          : parseFeatures(selectedProject.Features ?? selectedProject.features ?? ''),
+        TechStack: Array.isArray(selectedProject.TechStack)
+          ? selectedProject.TechStack
+          : parseTech(selectedProject.TechStack ?? selectedProject.tech_stack ?? selectedProject.techstack ?? selectedProject.tech ?? ''),
       };
       setProject(enhancedProject);
     }
